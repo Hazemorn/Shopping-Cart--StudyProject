@@ -1,0 +1,36 @@
+.product {
+    font-weight: 600;
+    font-style: 18px;
+    line-height: 1.3;
+    
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 3fr) 1fr;
+    place-items: center;
+    &__img {
+        grid-column: 1/2;
+    }
+    &__name {
+        grid-column: 2/3;
+    }
+    &__count_block {
+        grid-column: 3/4;
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        gap: 10px;
+    }
+    &__count {
+        padding: 4px 16px;
+        background-color: rgba(234, 239, 242, 1);
+    }
+    &__buttons {
+        display: flex;
+        flex-direction: column;
+    }
+    &__price {
+        grid-column: 4/5;
+    }
+    &__remove {
+        grid-column: 5/6;
+    }
+}
