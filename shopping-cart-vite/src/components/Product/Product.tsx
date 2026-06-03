@@ -15,7 +15,7 @@ interface ProductProps {
   deleteProduct: (id: number) => void; 
   increment: (id: number) => void;
   decrement: (id: number) => void;
-  changeValue: (id: number, value: number) => void;
+  changeValue: (id: number, value: string) => void;
 }
 
 export const Product: React.FC<ProductProps> =  ({item, deleteProduct, increment, decrement, changeValue}) => {
@@ -27,7 +27,7 @@ export const Product: React.FC<ProductProps> =  ({item, deleteProduct, increment
         <div className={s.product__name}>{name}</div>
         <div className={s.product__count_box}>
           <div className={s.product__count}>
-            <input type='number' onChange={(e)=>changeValue(id, +e.target.value)} className={s.product__count_input} min='1' max='100' value={quantity}/>
+            <input type='number' onChange={(e)=>changeValue(id, e.target.value)} className={s.product__count_input} min='1' max='100' value={quantity}/>
           </div>
           <div className={s.product__buttons}>
             <button onClick={() => increment(id)}><img src='../../../public/feather-icon/arrow-up.svg' alt='Up'/></button>

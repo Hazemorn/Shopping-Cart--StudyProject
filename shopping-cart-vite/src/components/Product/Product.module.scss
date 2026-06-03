@@ -23,7 +23,6 @@
         gap: 10px;
     }
     &__count {
-        padding: 4px 16px;
         max-width: 40px;
         max-height: 30px;
         align-items: center;
@@ -31,7 +30,9 @@
     }
 
     &__count_input {
+       padding: 6px;
         outline: none; 
+        text-align: center; 
     }
     &__count_input::-webkit-inner-spin-button,
     &__count_input::-webkit-outer-spin-button {

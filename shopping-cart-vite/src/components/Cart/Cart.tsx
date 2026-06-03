@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useMemo, useState} from 'react';
 import CartHeader from '../CartHeader/CartHeader';
 import CartFooter from '../CartFooter/CartFooter'
 import Product from '../Product/Product'
@@ -15,18 +15,12 @@ const Cart: React.FC = () =>  {
         totalPrice: number;
     }
 
-    const [total, setTotal] = useState<ITotal>({
-        count: cart.reduce((acc, curr) => acc + curr.quantity , 0),
-        totalPrice: cart.reduce((acc, curr) => acc + curr.totalPrice, 0),
-    });
-
-    useEffect(() => {
-        setTotal({
-            count: cart.reduce((acc, curr) => acc + curr.quantity , 0),
+    const total = useMemo<ITotal>(() => {
+        return {
+            count: cart.reduce((acc, curr) => acc + curr.quantity, 0),
             totalPrice: cart.reduce((acc, curr) => acc + curr.totalPrice, 0),
-        }
-        )
-    }, [cart])
+        };
+    }, [cart]);
 
     const deleteProduct = (id: number): void => {
         setCart((prevCart) => prevCart.filter((item) => id !== item.id ));
@@ -53,7 +47,7 @@ const Cart: React.FC = () =>  {
                 if(item.id === id){
                     return { 
                         ...item,
-                        quantity: item.quantity = 1 ? 1 : item.quantity - 1,
+                        quantity: item.quantity <= 1 ? 1 : item.quantity - 1,
                         totalPrice: item.quantity * item.price,    
                     }
                 } 
@@ -62,14 +56,27 @@ const Cart: React.FC = () =>  {
         });
     }
 
-    const changeValue = (id: number, value: number):void => {
+    const changeValue = (id: number, value: string):void => {
+        let validatedString = value;
+        if (validatedString.length > 3) {
+            validatedString = validatedString.slice(0, 3);
+        }
+        let valueNumber = Number(validatedString);
+
+        if (valueNumber > 100) {
+            valueNumber = 100;
+        }
+
         setCart((prevCart) => {
+
+            const finalQuantity = validatedString === '' ? 1 : valueNumber;
+
             return prevCart.map(item =>{
                 if(item.id === id){
                     return { 
                         ...item,
-                        quantity: value,
-                        totalPrice: value * item.price,
+                        quantity: finalQuantity,
+                        totalPrice: finalQuantity * item.price,
                     }
                 } 
                 return item
