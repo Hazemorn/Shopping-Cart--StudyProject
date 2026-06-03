@@ -1,31 +1,41 @@
-import {useState} from 'react';
 import s from './Product.module.scss';
 
-const Product = () => {
-  const [quantity, setQuantity] = useState<number>(1);
+interface IProduct {
+  id: number;
+  img: string;
+  name: string;
+  quantity: number;
+  maxQuantity: number;
+  price: number;
+  totalPrice: number;
+}
 
-  const increment = ():void => {
-    setQuantity((quantity) => quantity + 1);
-  };
-  
-  const decrement = ():void => {
-    setQuantity((quantity) => (quantity > 1 ? quantity - 1 : 1 ) )
-  };
+interface ProductProps {
+  item: IProduct; 
+  deleteProduct: (id: number) => void; 
+  increment: (id: number) => void;
+  decrement: (id: number) => void;
+  changeValue: (id: number, value: number) => void;
+}
+
+export const Product: React.FC<ProductProps> =  ({item, deleteProduct, increment, decrement, changeValue}) => {
+  const {id , img, name, quantity, totalPrice} = item;
+
   return (
-    <section className={s.product}>
-      <div className={s.product__img}><img src='../../../public/macbook.png'/></div>
-      <div className={s.product__name}>Apple MacBook Air 13</div>
-      <div className={s.product__count_block}>
-        <div className={s.product__count}>
-          {quantity}
+    <section key={id} className={s.product}>
+        <div className={s.product__img}><img src={img} alt={name}/></div>
+        <div className={s.product__name}>{name}</div>
+        <div className={s.product__count_box}>
+          <div className={s.product__count}>
+            <input type='number' onChange={(e)=>changeValue(id, +e.target.value)} className={s.product__count_input} min='1' max='100' value={quantity}/>
+          </div>
+          <div className={s.product__buttons}>
+            <button onClick={() => increment(id)}><img src='../../../public/feather-icon/arrow-up.svg' alt='Up'/></button>
+            <button onClick={() => decrement(id)}><img src='../../../public/feather-icon/arrow-down.svg' alt='Down'/></button>
+          </div>
         </div>
-        <div className={s.product__buttons}>
-          <button onClick={increment}><img src='../../../public/feather-icon/arrow-up.svg'/></button>
-          <button onClick={decrement}><img src='../../../public/feather-icon/arrow-down.svg'/></button>
-        </div>
-      </div>
-      <div className={s.product__price}>110 000 руб.</div>
-      <div className={s.product__remove}><img src='../../../public/feather-icon/x.svg'/></div>
+        <div className={s.product__price}>{totalPrice} BYN</div>
+      <button type='button' onClick={() => deleteProduct(id)}><img src='../../../public/feather-icon/x.svg' alt='Delete'/></button>
     </section>
   )
 }

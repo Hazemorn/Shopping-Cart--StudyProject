@@ -1,3 +1,5 @@
+@use '../../assets/styles/vars' as *;
+
 .cart_footer {
     background-color: rgba(234, 239, 242, 1);
     padding: 19px 0px;
@@ -7,6 +9,7 @@
 
     display: grid;
     grid-template-columns: 2fr repeat(3, 3fr) 1fr;
+    column-gap: 30px;
     place-items: center;
     &__count {
         grid-column:3/4;
@@ -14,5 +17,10 @@
     &__cost {
         grid-column: 4/5;
 
+    }
+
+    @media (max-width: $mobile) {
+        display: flex;
+        justify-content: space-around;
     }
 }
